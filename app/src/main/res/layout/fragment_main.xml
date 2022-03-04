@@ -6,6 +6,9 @@
     android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:clipToPadding="false"
+        android:paddingTop="30dp"
+        android:paddingBottom="30dp"
         android:id="@+id/main_button_list"
         android:paddingEnd="20sp"
         android:layout_width="match_parent"
