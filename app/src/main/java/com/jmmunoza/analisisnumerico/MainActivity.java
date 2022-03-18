@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
                 "dy = np.diff(y)/np.diff(t) # Derivada numérica\n" +
                 "print(dy)";
 
-        Python py                  = Python.getInstance();
+        Python py                 = Python.getInstance();
         PyObject sys              = py.getModule("sys");
         PyObject io               = py.getModule("io");
         PyObject console          = py.getModule("interpreter");
