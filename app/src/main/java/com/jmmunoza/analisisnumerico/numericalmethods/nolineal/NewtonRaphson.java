@@ -8,6 +8,7 @@ public class NewtonRaphson {
             System.out.println(xi);
         }
 
+        /*
         int i = 0;
         double E = tol + 1;
         while (E >= tol && i < i_max){
@@ -21,5 +22,7 @@ public class NewtonRaphson {
             System.out.println(xi + " es una raiz con un error de " + E);
         else
             System.out.println(xi + "Sin solucion");
+
+         */
     }
 }

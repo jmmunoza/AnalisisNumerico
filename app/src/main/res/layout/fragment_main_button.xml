@@ -3,9 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_marginStart="20sp"
-    android:layout_marginTop="20sp"
-    android:layout_height="wrap_content">
+    android:padding="20dp"
+    android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
         app:cardBackgroundColor="?attr/cardBackgroundColor"
@@ -22,38 +21,49 @@
             android:clickable="true"
             android:foreground="?android:selectableItemBackgroundBorderless"
             android:focusable="true"
-            android:padding="5sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/main_button_title"
+            <FrameLayout
+                android:id="@+id/main_button_frame_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_bold"
-                android:text="Solución de ecuaciones no lineales"
-                android:textAlignment="center"
-                android:textColor="?attr/titleTextColor"
-                android:textSize="16sp"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="9:12"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
-
-            </TextView>
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:layout_constraintDimensionRatio="16:5"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/main_button_title">
 
                 <ImageView
                     android:id="@+id/main_button_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </FrameLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/gray_3"
+                android:padding="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/main_button_frame_layout">
+
+                <TextView
+                    android:id="@+id/main_button_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_bold"
+                    android:text="Solución de ecuaciones no lineales"
+                    android:textAlignment="textStart"
+                    android:textColor="?attr/titleTextColor"
+                    android:textSize="18sp"
+                    android:layout_marginBottom="30sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

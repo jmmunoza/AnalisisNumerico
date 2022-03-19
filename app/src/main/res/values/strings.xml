@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Análisis Numérico</string>
+    <string name="app_author">Juan Manuel Muñoz Arias</string>
 </resources>
