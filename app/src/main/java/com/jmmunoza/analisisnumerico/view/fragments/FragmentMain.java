@@ -5,9 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,20 +13,13 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import androidx.viewpager2.widget.ViewPager2;
 
-import com.google.android.flexbox.FlexDirection;
-import com.google.android.flexbox.FlexWrap;
-import com.google.android.flexbox.FlexboxLayoutManager;
-import com.google.android.flexbox.JustifyContent;
 import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jmmunoza.analisisnumerico.R;
 import com.jmmunoza.analisisnumerico.view.adapters.MainButtonsAdapter;
+import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentNoLineal;
 import com.udojava.evalex.Expression;
 
 import java.math.BigDecimal;
@@ -36,14 +27,11 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 public class FragmentMain extends Fragment  {
-    private MainButtonsAdapter buttonsAdapter;
-    private ViewPager2         buttonsViewPager;
+    private RecyclerView         buttonsList;
     private AppBarLayout         mainAppBarLayout;
     private AppCompatImageView   mainBackground;
     private RelativeLayout       mainContainer;
-    private MaterialToolbar      mainToolbar;
     private CoordinatorLayout    mainCoordinator;
-    private TextView             mainDescriptionText;
 
     public FragmentMain(){
 
@@ -66,9 +54,9 @@ public class FragmentMain extends Fragment  {
         mainBackground     = requireView().findViewById(R.id.main_image);
         mainContainer      = requireView().findViewById(R.id.main_container);
         mainCoordinator    = requireView().findViewById(R.id.main_coordinator);
-        buttonsViewPager   = requireView().findViewById(R.id.main_view_pager);
+        buttonsList        = requireView().findViewById(R.id.main_button_list);
 
-        setButtonsViewPagerFunction();
+        setButtonsListFunction();
         setAppBarFunction();
     }
 
@@ -112,50 +100,44 @@ public class FragmentMain extends Fragment  {
                 .doubleValue();
     }
 
-    private void setButtonsViewPagerFunction(){
+    private void setButtonsListFunction(){
         ArrayList<MainButton> buttons = new ArrayList<>();
-        buttons.add(new MainButton("Diferenciacion", 1) {
-            @Override
-            public void onClick() {
-                super.onClick();
-            }
-        });
-        buttons.add(new MainButton("Solución de ecuaciones no lineales", 1) {
+        buttons.add(new MainButton(getString(R.string.derivative), R.drawable.image_derivative, R.drawable.gradient_1) {
             @Override
             public void onClick() {
                 super.onClick();
                 System.out.println("1");
             }
         });
-        buttons.add(new MainButton("Integración", 1) {
+        buttons.add(new MainButton(getString(R.string.integral), R.drawable.image_integral, R.drawable.gradient_2) {
             @Override
             public void onClick() {
                 super.onClick();
                 System.out.println("1");
             }
         });
-        buttons.add(new MainButton("Solución de ecuaciones  lineales", 1) {
+        buttons.add(new MainButton(getString(R.string.no_lineal), R.drawable.image_no_lineal, R.drawable.gradient_3) {
+            @Override
+            public void onClick() {
+                super.onClick();
+                SetFragmentNoLineal.set();
+            }
+        });
+        buttons.add(new MainButton(getString(R.string.lineal), R.drawable.image_lineal, R.drawable.gradient_4) {
             @Override
             public void onClick() {
                 super.onClick();
                 System.out.println("2");
             }
         });
-        buttons.add(new MainButton("Ecuaciones diferenciales", 1) {
+        buttons.add(new MainButton(getString(R.string.differentialecuations), R.drawable.image_differential_ecuation,R.drawable.gradient_5) {
             @Override
             public void onClick() {
                 super.onClick();
                 System.out.println("3");
             }
         });
-        buttons.add(new MainButton("Interpolacion", 1) {
-            @Override
-            public void onClick() {
-                super.onClick();
-                System.out.println("4");
-            }
-        });
-        buttons.add(new MainButton("Extrapolacion", 1) {
+        buttons.add(new MainButton(getString(R.string.interpolation), R.drawable.image_interpolation, R.drawable.gradient_6) {
             @Override
             public void onClick() {
                 super.onClick();
@@ -163,23 +145,28 @@ public class FragmentMain extends Fragment  {
             }
         });
 
-        buttonsAdapter = new MainButtonsAdapter(requireContext(), buttons);
-        buttonsViewPager.setAdapter(buttonsAdapter);
-        buttonsViewPager.setOffscreenPageLimit(buttons.size());
-
+        MainButtonsAdapter buttonsAdapter = new MainButtonsAdapter(requireContext(), buttons, false);
+        buttonsList.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false));
+        buttonsList.setAdapter(buttonsAdapter);
     }
 
     public abstract static class MainButton {
         private final int    image;
         private final String title;
+        private final int    background;
 
-        public MainButton(String title, int image){
-            this.image = image;
-            this.title = title;
+        public MainButton(String title, int image, int background){
+            this.image      = image;
+            this.title      = title;
+            this.background = background;
         }
 
         public void onClick() {
 
+        }
+
+        public int getBackground() {
+            return background;
         }
 
         public String getTitle() {

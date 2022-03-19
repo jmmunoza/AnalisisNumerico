@@ -1,4 +1,16 @@
 <resources>
     <string name="app_name">Análisis Numérico</string>
     <string name="app_author">Juan Manuel Muñoz Arias</string>
+    <string name="no_lineal">Solución de ecuaciones no lineales</string>
+    <string name="no_lineal_description">El objetivo de esta sección es el poder encontrar un valor x que haga posible la igualdad f(x)=0, también llamado como raíz de la función. Para este cometido, se harán uso de métodos cómo las Búsquedas incrementales, el método de Newton-Raphson, entre otros, los cuales permitirán encontrar el intervalo en donde se encuentran dichas raíces o, en su defecto, la raíz en sí.</string>
+    <string name="lineal">Solución de ecuaciones lineales</string>
+    <string name="integral">Integración</string>
+    <string name="derivative">Diferenciación</string>
+    <string name="interpolation">Interpolación</string>
+    <string name="differentialecuations">Ecuaciones diferenciales</string>
+    <string name="newton_raphson">Newton Raphson</string>
+    <string name="incremental_search">Búsquedas incrementales</string>
+    <string name="secant_method">Método de la secante</string>
+    <string name="fixed_point">Punto fijo</string>
+    <string name="bisection">Método de la bisección</string>
 </resources>

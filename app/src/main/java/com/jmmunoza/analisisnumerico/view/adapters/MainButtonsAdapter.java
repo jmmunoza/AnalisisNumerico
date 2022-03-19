@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.flexbox.AlignSelf;
 import com.google.android.flexbox.FlexboxLayoutManager;
+import com.jmmunoza.analisisnumerico.App;
 import com.jmmunoza.analisisnumerico.R;
 import com.jmmunoza.analisisnumerico.view.fragments.FragmentMain;
 
@@ -22,16 +23,23 @@ public class MainButtonsAdapter extends RecyclerView.Adapter<MainButtonsAdapter.
 
     private final LayoutInflater inflater;
     private final ArrayList<FragmentMain.MainButton> buttons;
+    private final boolean gridView;
 
-    public MainButtonsAdapter(Context context, ArrayList<FragmentMain.MainButton> buttons) {
+    public MainButtonsAdapter(Context context, ArrayList<FragmentMain.MainButton> buttons, boolean gridView) {
         this.inflater = LayoutInflater.from(context);
         this.buttons  = buttons;
+        this.gridView = gridView;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.fragment_main_button, parent, false);
+        View view;
+        if(gridView)
+            view = inflater.inflate(R.layout.fragment_main_button_grid, parent, false);
+        else
+            view = inflater.inflate(R.layout.fragment_main_button, parent, false);
+
         return new ViewHolder(view);
     }
 
@@ -39,7 +47,8 @@ public class MainButtonsAdapter extends RecyclerView.Adapter<MainButtonsAdapter.
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         FragmentMain.MainButton button = buttons.get(position);
         holder.title.setText(button.getTitle());
-        //holder.image.setText(song.getArtistName());
+        holder.layout.setBackgroundResource(button.getBackground());
+        holder.image.setImageResource(button.getImage());
     }
 
     @Override
