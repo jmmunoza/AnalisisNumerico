@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.jmmunoza.analisisnumerico.R;
+import com.jmmunoza.analisisnumerico.numericalmethods.derivatives.CentralDerivative;
+import com.jmmunoza.analisisnumerico.numericalmethods.nolineal.MultipleRoots;
 import com.jmmunoza.analisisnumerico.view.adapters.MainButtonsAdapter;
 import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentNoLineal;
 import com.udojava.evalex.Expression;
@@ -69,44 +71,15 @@ public class FragmentMain extends Fragment  {
         });
     }
 
-    private double calcDerivative(String f, double x){
-        double h = 0.1;
-        double x0 = getDerivative(f, x, h);
-        h/=10;
-        double x1 = getDerivative(f, x, h);
-        double E = Math.abs(x0-x1);
-        while (Math.abs((x0-x1)) >= E && E != 0){
-            E = Math.abs(x0-x1);
-            x0 = x1;
-            h/=10;
-            if(h == 0){
-                return x0;
-            }
-            x1 = getDerivative(f, x, h);
-        }
-
-        return x1;
-    }
-
-    private double getDerivative(String f, double x, double h){
-        String first = f.replace("x", "(x+h)");
-        String second = f.replace("x", "(x-h)");
-        String df = "((" + first + ")-(" + second + "))/(2*h)";
-        return new Expression(df)
-                .with("x", BigDecimal.valueOf(x))
-                .and("h", String.valueOf(h))
-                .setPrecision(15)
-                .eval()
-                .doubleValue();
-    }
-
     private void setButtonsListFunction(){
         ArrayList<MainButton> buttons = new ArrayList<>();
         buttons.add(new MainButton(getString(R.string.derivative), R.drawable.image_derivative, R.drawable.gradient_1) {
             @Override
             public void onClick() {
                 super.onClick();
-                System.out.println("1");
+                String f = "((x-4.1)^4)*(x+2.4)*(x-5)";
+                double x = 2.1;
+                MultipleRoots.calculate(f, x, 500, 5e-9);
             }
         });
         buttons.add(new MainButton(getString(R.string.integral), R.drawable.image_integral, R.drawable.gradient_2) {

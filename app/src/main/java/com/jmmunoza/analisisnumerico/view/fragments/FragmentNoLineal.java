@@ -14,7 +14,6 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.AppBarLayout;
@@ -103,6 +102,22 @@ public class FragmentNoLineal extends Fragment {
         });
 
         buttons.add(new FragmentMain.MainButton(getString(R.string.secant_method), R.drawable.image_secant,R.drawable.gradient_6) {
+            @Override
+            public void onClick() {
+                super.onClick();
+                System.out.println("3");
+            }
+        });
+
+        buttons.add(new FragmentMain.MainButton(getString(R.string.multiple_roots), R.drawable.image_multiple_roots,R.drawable.gradient_2) {
+            @Override
+            public void onClick() {
+                super.onClick();
+                System.out.println("3");
+            }
+        });
+
+        buttons.add(new FragmentMain.MainButton(getString(R.string.false_position), R.drawable.image_false_position,R.drawable.gradient_1) {
             @Override
             public void onClick() {
                 super.onClick();

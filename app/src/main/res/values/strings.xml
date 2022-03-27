@@ -13,4 +13,6 @@
     <string name="secant_method">Método de la secante</string>
     <string name="fixed_point">Punto fijo</string>
     <string name="bisection">Método de la bisección</string>
+    <string name="multiple_roots">Raices múltiples</string>
+    <string name="false_position">Regla falsa</string>
 </resources>
