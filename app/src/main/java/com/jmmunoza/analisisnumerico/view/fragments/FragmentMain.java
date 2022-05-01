@@ -34,11 +34,11 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 public class FragmentMain extends Fragment  {
-    private RecyclerView         buttonsList;
-    private AppBarLayout         mainAppBarLayout;
-    private AppCompatImageView   mainBackground;
-    private RelativeLayout       mainContainer;
-    private CoordinatorLayout    mainCoordinator;
+    private RecyclerView       buttonsList;
+    private AppBarLayout       mainAppBarLayout;
+    private AppCompatImageView mainBackground;
+    private RelativeLayout     mainContainer;
+    private CoordinatorLayout  mainCoordinator;
 
     public FragmentMain(){
 
@@ -109,13 +109,6 @@ public class FragmentMain extends Fragment  {
                 super.onClick();
                 System.out.println("1");
 
-                double[][] Ab = {
-                        {2, -1, -3,  2, 4},
-                        {5,-10,  2, -6, 3},
-                        {5, -9, 15, -6, 2},
-                        {2,  1, -1, 10, 1}
-                };
-
                 double[][] A = {
                         {2, -1, -3,  2},
                         {5,-10,  2, -6},
@@ -128,23 +121,45 @@ public class FragmentMain extends Fragment  {
                 };
 
                 printVector(Jacobi.jacobi(A.clone(), b.clone(), 500));
-                printVector(PartialPivoting.pivoting(Ab.clone(), b.clone()));
-                Ab = new double[][]{
-                        {2, -1, -3, 2, 4},
-                        {5, -10, 2, -6, 3},
-                        {5, -9, 15, -6, 2},
-                        {2, 1, -1, 10, 1}
+
+                 A = new double[][]{
+                         {2, -1, -3, 2},
+                         {5, -10, 2, -6},
+                         {5, -9, 15, -6},
+                         {2, 1, -1, 10}
+                 };
+
+                b = new double[]{
+                        4, 3, 2, 1
                 };
 
-                printVector(CompletePivoting.pivoting(Ab.clone(), b.clone()));
+                printVector(PartialPivoting.pivoting(A.clone(), b.clone()));
 
-                Ab = new double[][]{
-                        {2, -1, -3, 2, 4},
-                        {5, -10, 2, -6, 3},
-                        {5, -9, 15, -6, 2},
-                        {2, 1, -1, 10, 1}
+                A = new double[][]{
+                        {2, -1, -3, 2},
+                        {5, -10, 2, -6},
+                        {5, -9, 15, -6},
+                        {2, 1, -1, 10}
                 };
-                printVector(GaussianElimination.gauss(Ab.clone(), b.clone()));
+
+                b = new double[]{
+                        4, 3, 2, 1
+                };
+
+                printVector(CompletePivoting.pivoting(A.clone(), b.clone()));
+
+                A = new double[][]{
+                        {2, -1, -3, 2},
+                        {5, -10, 2, -6},
+                        {5, -9, 15, -6},
+                        {2, 1, -1, 10}
+                };
+
+                b = new double[]{
+                        4, 3, 2, 1
+                };
+
+                printVector(GaussianElimination.gauss(A.clone(), b.clone()));
             }
         });
         buttons.add(new MainButton(getString(R.string.no_lineal), R.drawable.image_no_lineal, R.drawable.gradient_3) {

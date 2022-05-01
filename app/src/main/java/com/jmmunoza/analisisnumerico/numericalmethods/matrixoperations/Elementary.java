@@ -32,4 +32,23 @@ public class Elementary {
 
         return A;
     }
+
+    public static double[][] createAugmentedMatrix(double[][] A, double[] b){
+        if(A.length == b.length){
+            double[][] Ab = new double[A.length][A[0].length + 1];
+            for(int i = 0; i < Ab.length; i++){
+                for(int j = 0; j < Ab[0].length; j++){
+                    if(j == A[0].length){
+                        Ab[i][j] = b[i];
+                    } else {
+                        Ab[i][j] = A[i][j];
+                    }
+                }
+            }
+
+            return Ab;
+        }
+
+        return null;
+    }
 }
