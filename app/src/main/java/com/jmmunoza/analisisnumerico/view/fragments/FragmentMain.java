@@ -19,9 +19,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.appbar.AppBarLayout;
 import com.jmmunoza.analisisnumerico.R;
 import com.jmmunoza.analisisnumerico.numericalmethods.derivatives.CentralDerivative;
+import com.jmmunoza.analisisnumerico.numericalmethods.lineal.CompletePivoting;
+import com.jmmunoza.analisisnumerico.numericalmethods.lineal.GaussianElimination;
+import com.jmmunoza.analisisnumerico.numericalmethods.lineal.Jacobi;
+import com.jmmunoza.analisisnumerico.numericalmethods.lineal.PartialPivoting;
 import com.jmmunoza.analisisnumerico.numericalmethods.nolineal.MultipleRoots;
 import com.jmmunoza.analisisnumerico.view.adapters.MainButtonsAdapter;
 import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentNoLineal;
+import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentTest;
 import com.udojava.evalex.Expression;
 
 import java.math.BigDecimal;
@@ -71,15 +76,31 @@ public class FragmentMain extends Fragment  {
         });
     }
 
+    private void printVector(double[] v){
+        for(int i = 0; i < v.length; i++){
+            System.out.print(v[i] + "   ");
+        }
+
+        System.out.println();
+    }
+
+    public static void print2D(double mat[][])
+    {
+        for (int i = 0; i < mat.length; i++){
+            for (int j = 0; j < mat[i].length; j++){
+                System.out.print(mat[i][j] + "            ");
+            }
+            System.out.println("");
+        }
+        System.out.println("----------------------------------------------------------------");
+    }
+
     private void setButtonsListFunction(){
         ArrayList<MainButton> buttons = new ArrayList<>();
         buttons.add(new MainButton(getString(R.string.derivative), R.drawable.image_derivative, R.drawable.gradient_1) {
             @Override
             public void onClick() {
-                super.onClick();
-                String f = "((x-4.1)^4)*(x+2.4)*(x-5)";
-                double x = 2.1;
-                MultipleRoots.calculate(f, x, 500, 5e-9);
+                SetFragmentTest.set();
             }
         });
         buttons.add(new MainButton(getString(R.string.integral), R.drawable.image_integral, R.drawable.gradient_2) {
@@ -87,6 +108,43 @@ public class FragmentMain extends Fragment  {
             public void onClick() {
                 super.onClick();
                 System.out.println("1");
+
+                double[][] Ab = {
+                        {2, -1, -3,  2, 4},
+                        {5,-10,  2, -6, 3},
+                        {5, -9, 15, -6, 2},
+                        {2,  1, -1, 10, 1}
+                };
+
+                double[][] A = {
+                        {2, -1, -3,  2},
+                        {5,-10,  2, -6},
+                        {5, -9, 15, -6},
+                        {2,  1, -1, 10}
+                };
+
+                double[] b = {
+                        4,3,2,1
+                };
+
+                printVector(Jacobi.jacobi(A.clone(), b.clone(), 500));
+                printVector(PartialPivoting.pivoting(Ab.clone(), b.clone()));
+                Ab = new double[][]{
+                        {2, -1, -3, 2, 4},
+                        {5, -10, 2, -6, 3},
+                        {5, -9, 15, -6, 2},
+                        {2, 1, -1, 10, 1}
+                };
+
+                printVector(CompletePivoting.pivoting(Ab.clone(), b.clone()));
+
+                Ab = new double[][]{
+                        {2, -1, -3, 2, 4},
+                        {5, -10, 2, -6, 3},
+                        {5, -9, 15, -6, 2},
+                        {2, 1, -1, 10, 1}
+                };
+                printVector(GaussianElimination.gauss(Ab.clone(), b.clone()));
             }
         });
         buttons.add(new MainButton(getString(R.string.no_lineal), R.drawable.image_no_lineal, R.drawable.gradient_3) {

@@ -1,6 +1,5 @@
 plugins {
     id 'com.android.application'
-    id 'com.chaquo.python'
 }
 
 android {
@@ -18,18 +17,6 @@ android {
 
         ndk {
             abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
-        }
-
-        sourceSets{
-            main{
-                python.srcDir "src/main/python"
-            }
-        }
-
-        python {
-            pip {
-                install "numpy"
-            }
         }
     }
 
@@ -59,4 +46,5 @@ dependencies {
     implementation 'io.github.kexanie.library:MathView:0.0.6'
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
     implementation 'com.udojava:EvalEx:2.7'
+    implementation 'com.androidplot:androidplot-core:1.5.9'
 }
