@@ -51,4 +51,23 @@ public class Elementary {
 
         return null;
     }
+
+    public static double[][] createAugmentedMatrix(double[][] A, double[][] B){
+        if(A.length == B.length){
+            double[][] AB = new double[A.length][A[0].length + B[0].length];
+            for(int i = 0; i < AB.length; i++){
+                for(int j = 0; j < AB[0].length; j++){
+                    if(j >= A[0].length){
+                        AB[i][j] = B[i][j - A[0].length];
+                    } else {
+                        AB[i][j] = A[i][j];
+                    }
+                }
+            }
+
+            return AB;
+        }
+
+        return null;
+    }
 }
