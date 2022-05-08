@@ -20,9 +20,13 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.jmmunoza.analisisnumerico.R;
 import com.jmmunoza.analisisnumerico.numericalmethods.derivatives.CentralDerivative;
 import com.jmmunoza.analisisnumerico.numericalmethods.lineal.CompletePivoting;
+import com.jmmunoza.analisisnumerico.numericalmethods.lineal.Crout;
+import com.jmmunoza.analisisnumerico.numericalmethods.lineal.Doolittle;
 import com.jmmunoza.analisisnumerico.numericalmethods.lineal.GaussianElimination;
 import com.jmmunoza.analisisnumerico.numericalmethods.lineal.Jacobi;
+import com.jmmunoza.analisisnumerico.numericalmethods.lineal.LUFactorization;
 import com.jmmunoza.analisisnumerico.numericalmethods.lineal.PartialPivoting;
+import com.jmmunoza.analisisnumerico.numericalmethods.matrixoperations.Elementary;
 import com.jmmunoza.analisisnumerico.numericalmethods.nolineal.MultipleRoots;
 import com.jmmunoza.analisisnumerico.view.adapters.MainButtonsAdapter;
 import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentNoLineal;
@@ -106,15 +110,13 @@ public class FragmentMain extends Fragment  {
         buttons.add(new MainButton(getString(R.string.integral), R.drawable.image_integral, R.drawable.gradient_2) {
             @Override
             public void onClick() {
-                super.onClick();
-                System.out.println("1");
 
-                double[][] A = {
-                        {2, -1, -3,  2},
-                        {5,-10,  2, -6},
-                        {5, -9, 15, -6},
-                        {2,  1, -1, 10}
-                };
+                double[][]A = new double[][]{
+                         {2, -1, -3, 2},
+                         {5, -10, 2, -6},
+                         {5, -9, 15, -6},
+                         {2, 1, -1, 10}
+                 };
 
                 double[] b = {
                         4,3,2,1
@@ -160,6 +162,46 @@ public class FragmentMain extends Fragment  {
                 };
 
                 printVector(GaussianElimination.gauss(A.clone(), b.clone()));
+
+
+                A = new double[][]{
+                        {2, -1, -3, 2},
+                        {5, -10, 2, -6},
+                        {5, -9, 15, -6},
+                        {2, 1, -1, 10}
+                };
+
+                b = new double[]{
+                        4, 3, 2, 1
+                };
+
+                printVector(LUFactorization.LU(A.clone(), b.clone()));
+
+                A = new double[][]{
+                        {2, -1, -3, 2},
+                        {5, -10, 2, -6},
+                        {5, -9, 15, -6},
+                        {2, 1, -1, 10}
+                };
+
+                b = new double[]{
+                        4, 3, 2, 1
+                };
+
+                printVector(Crout.crout(A.clone(), b.clone()));
+
+                A = new double[][]{
+                        {2, -1, -3, 2},
+                        {5, -10, 2, -6},
+                        {5, -9, 15, -6},
+                        {2, 1, -1, 10}
+                };
+
+                b = new double[]{
+                        4, 3, 2, 1
+                };
+
+                printVector(Doolittle.doolittle(A.clone(), b.clone()));
             }
         });
         buttons.add(new MainButton(getString(R.string.no_lineal), R.drawable.image_no_lineal, R.drawable.gradient_3) {

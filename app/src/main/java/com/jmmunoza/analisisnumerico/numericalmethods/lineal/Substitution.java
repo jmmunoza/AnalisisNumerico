@@ -23,4 +23,27 @@ public class Substitution {
 
         return r;
     }
+
+    public static double[] progressive(double[][] A){
+        int[] changes = new int[A.length];
+        for(int i = 0; i < A.length; i++){
+            changes[i] = i;
+        }
+
+        return progressive(A, changes);
+    }
+
+    public static double[] progressive(double[][] A, int[] changes){
+        double r[] = new double[A.length];
+        for(int i=0; i < A.length; i++) {
+            double aux = 0;
+            for(int j=0; j < i; j++){
+                aux += A[i][j]*r[changes[j]];
+            }
+
+            r[changes[i]] = (A[i][A.length]-aux)/A[i][i];
+        }
+
+        return r;
+    }
 }
