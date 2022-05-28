@@ -8,9 +8,7 @@ public class Jacobi {
         if(A.length >= 1 && A.length == A[0].length && b.length >= 1 && b.length == A.length){
             // creating inverted D
             double[][] Dinv = new double[A.length][A.length];
-            for(int i = 0; i < Dinv.length; i++){
-                Dinv[i][i] = 1/A[i][i];
-            }
+            for(int i = 0; i < Dinv.length; i++) Dinv[i][i] = 1/A[i][i];
 
             // creating L + U
             double[][] LU = A;
