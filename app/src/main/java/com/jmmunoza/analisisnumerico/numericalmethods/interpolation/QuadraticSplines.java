@@ -39,14 +39,44 @@ public class QuadraticSplines {
             double[][] newA = new double[A.length-1][A.length-1];
             double[]   newB = new double[b.length-1];
             for(int i = 0; i < A.length - 1; i++){
-                for(int j = 1; j < A.length; j++){
-                    newA[i][j-1] = A[i][j];
+                System.arraycopy(A[i], 1, newA[i], 0, A.length - 1);
+            }
+
+            if (b.length - 1 >= 0) System.arraycopy(b, 0, newB, 0, b.length - 1);
+
+            double[] coefficients = CompletePivoting.pivoting(newA, newB);
+            double[] newCoefficients = new double[A.length];
+            System.arraycopy(coefficients, 0, newCoefficients, 1, coefficients.length);
+
+            double[] results = new double[x_values.length];
+            for(int i = 0; i < x_values.length; i++){
+                for(int j = 0; j < x.length - 1; j++){
+                    if(x_values[i] == x[j]){
+                        results[i] = y[j];
+                        break;
+                    } else if(x_values[i] == x[j+1]){
+                        results[i] = y[j+1];
+                        break;
+                    } else if(x_values[i] > x[j] && x_values[i] < x[j+1]){
+                        results[i] += newCoefficients[j*3]   * x_values[i] * x_values[i];
+                        results[i] += newCoefficients[j*3+1] * x_values[i];
+                        results[i] += newCoefficients[j*3+2] ;
+                        break;
+                    } else if(x_values[i] < x[0]){
+                        results[i] += newCoefficients[0] * x_values[i] * x_values[i];
+                        results[i] += newCoefficients[1] * x_values[i];
+                        results[i] += newCoefficients[2];
+                        break;
+                    } else if(x_values[i] > x[x.length-1]){
+                        results[i] += newCoefficients[newCoefficients.length-3] * x_values[i] * x_values[i];
+                        results[i] += newCoefficients[newCoefficients.length-2] * x_values[i];
+                        results[i] += newCoefficients[newCoefficients.length-1];
+                        break;
+                    }
                 }
             }
 
-            for(int i = 0; i < b.length - 1; i++) newB[i] = b[i];
-
-            return CompletePivoting.pivoting(newA, newB);
+            return results;
         }
         return null;
     }
