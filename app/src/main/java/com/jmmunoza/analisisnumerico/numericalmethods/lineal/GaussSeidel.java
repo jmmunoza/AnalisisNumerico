@@ -1,13 +1,16 @@
 package com.jmmunoza.analisisnumerico.numericalmethods.lineal;
 
+import com.jmmunoza.analisisnumerico.listeners.LinealResultsSpecialListener;
 import com.jmmunoza.analisisnumerico.numericalmethods.matrixoperations.Addition;
 import com.jmmunoza.analisisnumerico.numericalmethods.matrixoperations.Elementary;
 import com.jmmunoza.analisisnumerico.numericalmethods.matrixoperations.Inverted;
 import com.jmmunoza.analisisnumerico.numericalmethods.matrixoperations.Multiplication;
 import com.jmmunoza.analisisnumerico.numericalmethods.matrixoperations.Subtraction;
 
+import java.util.Arrays;
+
 public class GaussSeidel {
-    public static double[] gaussSeidel(double[][] A, double[] b, int max){
+    public static double[] gaussSeidel(double[][] A, double[] b, int i_max, double tol, boolean errorType, LinealResultsSpecialListener listener){
         if(A.length >= 1 && A.length == A[0].length && b.length >= 1 && b.length == A.length){
             // creating  D L U
             double [][]
@@ -42,26 +45,42 @@ public class GaussSeidel {
 
             // creating x
             double[] x = new double[b.length];
+            Arrays.fill(x, 1);
 
-            for(int k = 0; k < max; k++){
-                // x(n+1) = Tx(n) + C
-                x = Addition.addVectors(Multiplication.multiplyVectorAndArray(T, x), C);
+            int i      = 0;
+            double E   = 1 + tol;
+            listener.onResultAdded(i, x, E);
+
+            while (E >= tol && i < i_max){
+                double[] xn = Addition.addVectors(Multiplication.multiplyVectorAndArray(T, x), C);
+                E  = getMaxError(x, xn, errorType);
+                x  = xn;
+                i++;
+                listener.onResultAdded(i, x, E);
             }
 
-            return x;
+            if (i != i_max) {
+                if (E < tol)
+                    return x;
+            }
+            return null;
         }
 
         return null;
     }
 
-    public static void print2D(double mat[][])
-    {
-        for (int i = 0; i < mat.length; i++){
-            for (int j = 0; j < mat[i].length; j++){
-                System.out.print(mat[i][j] + "            ");
+    private static double getMaxError(double[] x0, double[] x1, boolean errorType){
+        double E = 0;
+        for(int i = 0; i < x0.length; i++){
+            if(errorType){
+                if(E < Math.abs(x0[i] - x1[i]))
+                    E = Math.abs(x0[i] - x1[i]);
+            } else {
+                if(E < Math.abs((x0[i] - x1[i])/x0[i]))
+                    E = Math.abs((x0[i] - x1[i])/x0[i]);
             }
-            System.out.println("");
         }
-        System.out.println("----------------------------------------------------------------");
+
+        return E;
     }
 }

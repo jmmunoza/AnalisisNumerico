@@ -19,19 +19,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.appbar.AppBarLayout;
 import com.jmmunoza.analisisnumerico.R;
 import com.jmmunoza.analisisnumerico.view.adapters.MainButtonsAdapter;
-import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentBisection;
 import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentCholesky;
 import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentCompletePivoting;
 import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentCrout;
 import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentDoolittle;
-import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentFalsePosition;
-import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentFixedPoint;
+import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentGaussSeidel;
 import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentGaussianElimination;
+import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentJacobi;
 import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentLUFactorization;
-import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentMultipleRoots;
-import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentNewtonRaphson;
 import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentPartialPivoting;
-import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentSecant;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -120,14 +116,14 @@ public class FragmentLineal extends Fragment {
         buttons.add(new FragmentMain.MainButton(getString(R.string.gauss_seidel), R.drawable.image_lineal,R.drawable.gradient_2) {
             @Override
             public void onClick() {
-                SetFragmentGaussianElimination.set();
+                SetFragmentGaussSeidel.set();
             }
         });
 
         buttons.add(new FragmentMain.MainButton(getString(R.string.jacobi), R.drawable.image_lineal,R.drawable.gradient_1) {
             @Override
             public void onClick() {
-                SetFragmentFalsePosition.set();
+                SetFragmentJacobi.set();
             }
         });
 
