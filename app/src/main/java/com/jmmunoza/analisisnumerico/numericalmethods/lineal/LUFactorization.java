@@ -1,9 +1,10 @@
 package com.jmmunoza.analisisnumerico.numericalmethods.lineal;
 
+import com.jmmunoza.analisisnumerico.listeners.LinealResultListener;
 import com.jmmunoza.analisisnumerico.numericalmethods.matrixoperations.Elementary;
 
 public class LUFactorization {
-    public static double[] LU(double[][] A, double[] b) {
+    public static double[] LU(double[][] A, double[] b, LinealResultListener listener) {
         if(A.length == A[0].length && A.length == b.length){
             // Creating L
             double[][] L = new double[A.length][A.length];
@@ -21,6 +22,9 @@ public class LUFactorization {
 
             // Creating U
             double[][] U = A;
+
+            listener.onResultAdded(L, 1);
+            listener.onResultAdded(U, 2);
 
             // creating Lb extended
             double[][] Lb = Elementary.createAugmentedMatrix(L, b);

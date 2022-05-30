@@ -1,16 +1,17 @@
 package com.jmmunoza.analisisnumerico.numericalmethods.lineal;
 
+import com.jmmunoza.analisisnumerico.listeners.LinealResultListener;
 import com.jmmunoza.analisisnumerico.numericalmethods.matrixoperations.Elementary;
-import com.jmmunoza.analisisnumerico.view.fragments.FragmentMain;
 
 public class CompletePivoting {
-    public static double[] pivoting(double[][] A, double[] b){
+    public static double[] pivoting(double[][] A, double[] b, LinealResultListener listener){
         double[][] Ab = Elementary.createAugmentedMatrix(A,b);
         if(Ab.length >= 1 && Ab.length + 1 == Ab[0].length){
             int[] changes = new int[Ab.length];
             for(int i = 0; i < changes.length; i++) changes[i] = i;
 
             for(int k = 0; k < Ab.length-1; k++) {
+
                 double max = Math.abs(Ab[k][k]);
                 int maxPosCol = k, maxPosRow = k;
                 for(int i = k; i < Ab.length; i++){
@@ -34,6 +35,8 @@ public class CompletePivoting {
                         Ab[i][j] -= Ab[k][j] * m;
                     }
                 }
+
+                listener.onResultAdded(Ab, k + 1);
             }
 
             return Substitution.backward(Ab, changes);

@@ -1,5 +1,6 @@
 package com.jmmunoza.analisisnumerico.numericalmethods.interpolation;
 
+import com.jmmunoza.analisisnumerico.listeners.LinealResultListener;
 import com.jmmunoza.analisisnumerico.numericalmethods.lineal.CompletePivoting;
 
 public class QuadraticSplines {
@@ -44,7 +45,9 @@ public class QuadraticSplines {
 
             if (b.length - 1 >= 0) System.arraycopy(b, 0, newB, 0, b.length - 1);
 
-            double[] coefficients = CompletePivoting.pivoting(newA, newB);
+            double[] coefficients = CompletePivoting.pivoting(newA, newB, (A1, k) -> {
+
+            });
             double[] newCoefficients = new double[A.length];
             System.arraycopy(coefficients, 0, newCoefficients, 1, coefficients.length);
 

@@ -1,9 +1,10 @@
 package com.jmmunoza.analisisnumerico.numericalmethods.lineal;
 
+import com.jmmunoza.analisisnumerico.listeners.LinealResultListener;
 import com.jmmunoza.analisisnumerico.numericalmethods.matrixoperations.Elementary;
 
 public class Crout {
-    public static double[] crout(double[][] A, double[] b){
+    public static double[] crout(double[][] A, double[] b, LinealResultListener listener){
         if(A.length == A[0].length && A.length == b.length){
 
             double[][] U = new double[A.length][A.length];
@@ -28,6 +29,9 @@ public class Crout {
                     }
                 }
             }
+
+            listener.onResultAdded(L, 1);
+            listener.onResultAdded(U, 2);
 
             // creating Lb extended
             double[][] Lb = Elementary.createAugmentedMatrix(L, b);

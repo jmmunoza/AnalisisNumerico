@@ -20,11 +20,17 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.jmmunoza.analisisnumerico.R;
 import com.jmmunoza.analisisnumerico.view.adapters.MainButtonsAdapter;
 import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentBisection;
+import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentCholesky;
 import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentCompletePivoting;
+import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentCrout;
+import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentDoolittle;
 import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentFalsePosition;
 import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentFixedPoint;
+import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentGaussianElimination;
+import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentLUFactorization;
 import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentMultipleRoots;
 import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentNewtonRaphson;
+import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentPartialPivoting;
 import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentSecant;
 
 import java.util.ArrayList;
@@ -79,8 +85,7 @@ public class FragmentLineal extends Fragment {
         buttons.add(new FragmentMain.MainButton(getString(R.string.cholesky), R.drawable.image_lineal, R.drawable.gradient_1) {
             @Override
             public void onClick() {
-                super.onClick();
-                System.out.println("1");
+                SetFragmentCholesky.set();
             }
         });
 
@@ -94,28 +99,28 @@ public class FragmentLineal extends Fragment {
         buttons.add(new FragmentMain.MainButton(getString(R.string.crout), R.drawable.image_lineal,R.drawable.gradient_2) {
             @Override
             public void onClick() {
-                SetFragmentBisection.set();
+                SetFragmentCrout.set();
             }
         });
 
         buttons.add(new FragmentMain.MainButton(getString(R.string.doolittle), R.drawable.image_lineal,R.drawable.gradient_4) {
             @Override
             public void onClick() {
-                SetFragmentFixedPoint.set();
+                SetFragmentDoolittle.set();
             }
         });
 
         buttons.add(new FragmentMain.MainButton(getString(R.string.gaussianElimination), R.drawable.image_lineal,R.drawable.gradient_6) {
             @Override
             public void onClick() {
-                SetFragmentSecant.set();
+                SetFragmentGaussianElimination.set();
             }
         });
 
         buttons.add(new FragmentMain.MainButton(getString(R.string.gauss_seidel), R.drawable.image_lineal,R.drawable.gradient_2) {
             @Override
             public void onClick() {
-                SetFragmentMultipleRoots.set();
+                SetFragmentGaussianElimination.set();
             }
         });
 
@@ -129,14 +134,14 @@ public class FragmentLineal extends Fragment {
         buttons.add(new FragmentMain.MainButton(getString(R.string.LU), R.drawable.image_lineal,R.drawable.gradient_5) {
             @Override
             public void onClick() {
-                SetFragmentNewtonRaphson.set();
+                SetFragmentLUFactorization.set();
             }
         });
 
         buttons.add(new FragmentMain.MainButton(getString(R.string.partialPivoting), R.drawable.image_lineal,R.drawable.gradient_2) {
             @Override
             public void onClick() {
-                SetFragmentBisection.set();
+                SetFragmentPartialPivoting.set();
             }
         });
 

@@ -20,7 +20,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jmmunoza.analisisnumerico.R;
-import com.jmmunoza.analisisnumerico.numericalmethods.lineal.CompletePivoting;
+import com.jmmunoza.analisisnumerico.numericalmethods.lineal.Cholesky;
+import com.jmmunoza.analisisnumerico.numericalmethods.lineal.Doolittle;
 import com.jmmunoza.analisisnumerico.util.KeyboardManager;
 import com.jmmunoza.analisisnumerico.util.MatrixPrinter;
 import com.jmmunoza.analisisnumerico.view.adapters.LinealInputAdapter;
@@ -29,15 +30,15 @@ import com.jmmunoza.analisisnumerico.view.adapters.LinealResultAdapter;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-public class FragmentCompletePivoting extends Fragment {
+public class FragmentDoolittle extends Fragment {
     private RecyclerView resultsList;
     private RecyclerView               matrix;
     private RecyclerView               vector;
-    private LinealResultAdapter        resultsAdapter;
-    private LinealInputAdapter         matrixAdapter;
+    private LinealResultAdapter resultsAdapter;
+    private LinealInputAdapter matrixAdapter;
     private LinealInputAdapter         vectorAdapter;
 
-    private double[]          results;
+    private double[]    results;
     private ArrayList<String> matrixChanges;
 
     private ConstraintLayout IMAXLayout;
@@ -57,7 +58,7 @@ public class FragmentCompletePivoting extends Fragment {
 
     private Spinner errorSpinner;
 
-    public FragmentCompletePivoting(){
+    public FragmentDoolittle(){
 
     }
 
@@ -141,7 +142,7 @@ public class FragmentCompletePivoting extends Fragment {
     }
 
     private void setTitle(){
-        title.setText(R.string.completePivoting);
+        title.setText(R.string.doolittle);
     }
 
     private void setSolveFunction(){
@@ -155,11 +156,18 @@ public class FragmentCompletePivoting extends Fragment {
 
                 double[][] A     = matrixAdapter.getMatrix();
                 double[] b       = vectorAdapter.getVector();
-                @SuppressLint("DefaultLocale") double[] results = CompletePivoting.pivoting(A, b, (A1, k) -> {
+                @SuppressLint("DefaultLocale") double[] results = Doolittle.doolittle(A, b, (A1, k) -> {
+                    String AString = "";
+                    switch (k){
+                        case 1:
+                            AString += "Matriz L " + "\n";
+                            break;
+                        case 2:
+                            AString += "Matriz U " + "\n";
+                            break;
+                    }
 
-                    String AString = "Etapa " + k + "\n";
                     AString += MatrixPrinter.printMatrix(A1);
-
                     matrixChanges.add(AString);
                 });
 

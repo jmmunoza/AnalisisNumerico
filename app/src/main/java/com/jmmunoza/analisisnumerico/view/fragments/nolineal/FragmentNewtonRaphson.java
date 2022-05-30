@@ -147,7 +147,13 @@ public class FragmentNewtonRaphson extends Fragment {
                 final double[] resultValue = {0};
 
                 boolean worked = NewtonRaphson.calculate(fx, xi, i_max, tol, errorType, (i, x, e) -> {
-                    results.add(i + "   |   " + df.format(x) + "   |   " + df.format(e));
+                    String result = "";
+                    result += String.format("%1d", i);
+                    result += "   |   ";
+                    result += String.format("%10f", x);
+                    result += "   |   ";
+                    result += String.format("%10f", e);
+                    results.add(result);
                     resultValue[0] = x;
                 });
 
@@ -163,6 +169,7 @@ public class FragmentNewtonRaphson extends Fragment {
                 }
 
             } catch (Exception e){
+                System.out.println(e.toString());
                 ToastMaker.show("Hay un error con los parámetros de entrada, por favor revísalos.");
             }
         });

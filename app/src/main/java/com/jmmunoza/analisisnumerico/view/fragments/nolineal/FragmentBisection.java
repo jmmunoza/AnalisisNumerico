@@ -20,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.jmmunoza.analisisnumerico.R;
 import com.jmmunoza.analisisnumerico.numericalmethods.nolineal.Bisection;
-import com.jmmunoza.analisisnumerico.numericalmethods.nolineal.Secant;
 import com.jmmunoza.analisisnumerico.util.KeyboardManager;
 import com.jmmunoza.analisisnumerico.util.ToastMaker;
 import com.jmmunoza.analisisnumerico.view.adapters.NoLinealResultAdapter;
@@ -154,7 +153,13 @@ public class FragmentBisection extends Fragment {
                     final double[] resultValue = {0};
 
                     boolean worked = Bisection.calculate(fx, xi, xf, tol, errorType, (i, x, e) -> {
-                        results.add(i + "   |   " + df.format(x) + "   |   " + df.format(e));
+                        String result = "";
+                        result += String.format("%1d", i);
+                        result += "   |   ";
+                        result += String.format("%10f", x);
+                        result += "   |   ";
+                        result += String.format("%10f", e);
+                        results.add(result);
                         resultValue[0] = x;
                     });
 

@@ -1,9 +1,10 @@
 package com.jmmunoza.analisisnumerico.numericalmethods.lineal;
 
+import com.jmmunoza.analisisnumerico.listeners.LinealResultListener;
 import com.jmmunoza.analisisnumerico.numericalmethods.matrixoperations.Elementary;
 
 public class PartialPivoting {
-    public static double[] pivoting(double[][] A, double[] b){
+    public static double[] pivoting(double[][] A, double[] b, LinealResultListener listener){
         double[][] Ab = Elementary.createAugmentedMatrix(A,b);
         if(Ab.length >= 1 && Ab.length + 1 == Ab[0].length){
             for(int k = 0; k < Ab.length-1; k++) {
@@ -26,6 +27,8 @@ public class PartialPivoting {
                         Ab[i][j] -= Ab[k][j] * m;
                     }
                 }
+
+                listener.onResultAdded(Ab, k + 1);
             }
             return Substitution.backward(Ab);
         }

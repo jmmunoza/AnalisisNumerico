@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.jmmunoza.analisisnumerico.R;
 import com.jmmunoza.analisisnumerico.numericalmethods.lineal.CompletePivoting;
+import com.jmmunoza.analisisnumerico.numericalmethods.lineal.GaussianElimination;
 import com.jmmunoza.analisisnumerico.util.KeyboardManager;
 import com.jmmunoza.analisisnumerico.util.MatrixPrinter;
 import com.jmmunoza.analisisnumerico.view.adapters.LinealInputAdapter;
@@ -29,12 +30,12 @@ import com.jmmunoza.analisisnumerico.view.adapters.LinealResultAdapter;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-public class FragmentCompletePivoting extends Fragment {
+public class FragmentGaussianElimination extends Fragment {
     private RecyclerView resultsList;
     private RecyclerView               matrix;
     private RecyclerView               vector;
-    private LinealResultAdapter        resultsAdapter;
-    private LinealInputAdapter         matrixAdapter;
+    private LinealResultAdapter resultsAdapter;
+    private LinealInputAdapter matrixAdapter;
     private LinealInputAdapter         vectorAdapter;
 
     private double[]          results;
@@ -57,7 +58,7 @@ public class FragmentCompletePivoting extends Fragment {
 
     private Spinner errorSpinner;
 
-    public FragmentCompletePivoting(){
+    public FragmentGaussianElimination(){
 
     }
 
@@ -141,7 +142,7 @@ public class FragmentCompletePivoting extends Fragment {
     }
 
     private void setTitle(){
-        title.setText(R.string.completePivoting);
+        title.setText(R.string.gaussianElimination);
     }
 
     private void setSolveFunction(){
@@ -155,7 +156,7 @@ public class FragmentCompletePivoting extends Fragment {
 
                 double[][] A     = matrixAdapter.getMatrix();
                 double[] b       = vectorAdapter.getVector();
-                @SuppressLint("DefaultLocale") double[] results = CompletePivoting.pivoting(A, b, (A1, k) -> {
+                @SuppressLint("DefaultLocale") double[] results = GaussianElimination.gauss(A, b, (A1, k) -> {
 
                     String AString = "Etapa " + k + "\n";
                     AString += MatrixPrinter.printMatrix(A1);

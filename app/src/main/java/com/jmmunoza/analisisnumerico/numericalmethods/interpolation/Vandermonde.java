@@ -1,5 +1,6 @@
 package com.jmmunoza.analisisnumerico.numericalmethods.interpolation;
 
+import com.jmmunoza.analisisnumerico.listeners.LinealResultListener;
 import com.jmmunoza.analisisnumerico.numericalmethods.lineal.CompletePivoting;
 
 public class Vandermonde {
@@ -12,7 +13,9 @@ public class Vandermonde {
                     A[i][j] = Math.pow(x[i], x.length - j - 1);
                 }
             }
-            double[] polynomial = CompletePivoting.pivoting(A, y);
+            double[] polynomial = CompletePivoting.pivoting(A, y, (A1, k) -> {
+
+            });
 
             // Evaluando el polinomio
             double[] results    = new double[x_values.length];
