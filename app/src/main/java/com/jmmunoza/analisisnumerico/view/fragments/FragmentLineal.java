@@ -20,25 +20,24 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.jmmunoza.analisisnumerico.R;
 import com.jmmunoza.analisisnumerico.view.adapters.MainButtonsAdapter;
 import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentBisection;
+import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentCompletePivoting;
 import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentFalsePosition;
 import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentFixedPoint;
 import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentMultipleRoots;
 import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentNewtonRaphson;
 import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentSecant;
-import com.jmmunoza.analisisnumerico.view.fragments.nolineal.FragmentBisection;
-import com.jmmunoza.analisisnumerico.view.fragments.nolineal.FragmentFixedPoint;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-public class FragmentNoLineal extends Fragment {
+public class FragmentLineal extends Fragment {
     private RecyclerView       buttonsList;
     private AppBarLayout       noLinealAppBarLayout;
     private AppCompatImageView noLinealBackground;
     private RelativeLayout     noLinealContainer;
     private CoordinatorLayout  noLinealCoordinator;
 
-    public FragmentNoLineal(){
+    public FragmentLineal(){
 
     }
 
@@ -46,7 +45,7 @@ public class FragmentNoLineal extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         postponeEnterTransition(1, TimeUnit.MILLISECONDS);
-        return inflater.inflate(R.layout.fragment_no_lineal, null);
+        return inflater.inflate(R.layout.fragment_lineal, null);
     }
 
     @Override
@@ -56,11 +55,11 @@ public class FragmentNoLineal extends Fragment {
     }
 
     private void loadComponents(){
-        noLinealAppBarLayout   = requireView().findViewById(R.id.no_lineal_app_bar);
-        noLinealBackground     = requireView().findViewById(R.id.no_lineal_image);
-        noLinealContainer      = requireView().findViewById(R.id.no_lineal_container);
-        noLinealCoordinator    = requireView().findViewById(R.id.no_lineal_coordinator);
-        buttonsList            = requireView().findViewById(R.id.no_lineal_button_list);
+        noLinealAppBarLayout   = requireView().findViewById(R.id.lineal_app_bar);
+        noLinealBackground     = requireView().findViewById(R.id.lineal_image);
+        noLinealContainer      = requireView().findViewById(R.id.lineal_container);
+        noLinealCoordinator    = requireView().findViewById(R.id.lineal_coordinator);
+        buttonsList            = requireView().findViewById(R.id.lineal_button_list);
 
         setButtonsListFunction();
         setAppBarFunction();
@@ -77,7 +76,7 @@ public class FragmentNoLineal extends Fragment {
 
     private void setButtonsListFunction(){
         ArrayList<FragmentMain.MainButton> buttons = new ArrayList<>();
-        buttons.add(new FragmentMain.MainButton(getString(R.string.incremental_search), R.drawable.image_incremental_search, R.drawable.gradient_1) {
+        buttons.add(new FragmentMain.MainButton(getString(R.string.cholesky), R.drawable.image_lineal, R.drawable.gradient_1) {
             @Override
             public void onClick() {
                 super.onClick();
@@ -85,45 +84,59 @@ public class FragmentNoLineal extends Fragment {
             }
         });
 
-        buttons.add(new FragmentMain.MainButton(getString(R.string.newton_raphson), R.drawable.image_newton_raphson,R.drawable.gradient_5) {
+        buttons.add(new FragmentMain.MainButton(getString(R.string.completePivoting), R.drawable.image_lineal,R.drawable.gradient_5) {
             @Override
             public void onClick() {
-                SetFragmentNewtonRaphson.set();
+                SetFragmentCompletePivoting.set();
             }
         });
 
-        buttons.add(new FragmentMain.MainButton(getString(R.string.bisection), R.drawable.image_bisection,R.drawable.gradient_2) {
+        buttons.add(new FragmentMain.MainButton(getString(R.string.crout), R.drawable.image_lineal,R.drawable.gradient_2) {
             @Override
             public void onClick() {
                 SetFragmentBisection.set();
             }
         });
 
-        buttons.add(new FragmentMain.MainButton(getString(R.string.fixed_point), R.drawable.image_fixed_point,R.drawable.gradient_4) {
+        buttons.add(new FragmentMain.MainButton(getString(R.string.doolittle), R.drawable.image_lineal,R.drawable.gradient_4) {
             @Override
             public void onClick() {
                 SetFragmentFixedPoint.set();
             }
         });
 
-        buttons.add(new FragmentMain.MainButton(getString(R.string.secant_method), R.drawable.image_secant,R.drawable.gradient_6) {
+        buttons.add(new FragmentMain.MainButton(getString(R.string.gaussianElimination), R.drawable.image_lineal,R.drawable.gradient_6) {
             @Override
             public void onClick() {
                 SetFragmentSecant.set();
             }
         });
 
-        buttons.add(new FragmentMain.MainButton(getString(R.string.multiple_roots), R.drawable.image_multiple_roots,R.drawable.gradient_2) {
+        buttons.add(new FragmentMain.MainButton(getString(R.string.gauss_seidel), R.drawable.image_lineal,R.drawable.gradient_2) {
             @Override
             public void onClick() {
                 SetFragmentMultipleRoots.set();
             }
         });
 
-        buttons.add(new FragmentMain.MainButton(getString(R.string.false_position), R.drawable.image_false_position,R.drawable.gradient_1) {
+        buttons.add(new FragmentMain.MainButton(getString(R.string.jacobi), R.drawable.image_lineal,R.drawable.gradient_1) {
             @Override
             public void onClick() {
                 SetFragmentFalsePosition.set();
+            }
+        });
+
+        buttons.add(new FragmentMain.MainButton(getString(R.string.LU), R.drawable.image_lineal,R.drawable.gradient_5) {
+            @Override
+            public void onClick() {
+                SetFragmentNewtonRaphson.set();
+            }
+        });
+
+        buttons.add(new FragmentMain.MainButton(getString(R.string.partialPivoting), R.drawable.image_lineal,R.drawable.gradient_2) {
+            @Override
+            public void onClick() {
+                SetFragmentBisection.set();
             }
         });
 

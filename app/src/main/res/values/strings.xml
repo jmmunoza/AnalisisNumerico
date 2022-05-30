@@ -3,6 +3,7 @@
     <string name="app_author">Juan Manuel Muñoz Arias</string>
     <string name="no_lineal">Solución de ecuaciones no lineales</string>
     <string name="no_lineal_description">El objetivo de esta sección es el poder encontrar un valor x que haga posible la igualdad f(x)=0, también llamado como raíz de la función. Para este cometido, se harán uso de métodos cómo las Búsquedas incrementales, el método de Newton-Raphson, entre otros, los cuales permitirán encontrar el intervalo en donde se encuentran dichas raíces o, en su defecto, la raíz en sí.</string>
+    <string name="interpolation_description">En el subcampo matemático del análisis numérico, se denomina interpolación a la obtención de nuevos puntos partiendo del conocimiento de un conjunto discreto de puntos.</string>
     <string name="lineal">Solución de ecuaciones lineales</string>
     <string name="integral">Integración</string>
     <string name="derivative">Diferenciación</string>
@@ -15,4 +16,23 @@
     <string name="bisection">Método de la bisección</string>
     <string name="multiple_roots">Raices múltiples</string>
     <string name="false_position">Regla falsa</string>
+    <string name="lagrange">Lagrange</string>
+    <string name="divided_differences">Diferencias divididas</string>
+    <string name="lineal_splines">Splines lineales</string>
+    <string name="quadratic_splines">Splines cuadraticos</string>
+    <string name="vandermonde">Vandermonde</string>
+    <string name="cholesky">Cholesky</string>
+    <string name="completePivoting">Pivoteo total</string>
+    <string name="crout">Crout</string>
+    <string name="doolittle">Doolittle</string>
+    <string name="gaussianElimination">Eliminación Gaussiana</string>
+    <string name="gauss_seidel">Gauss-Seidel</string>
+    <string name="jacobi">Jacobi</string>
+    <string name="LU">Factorización LU</string>
+    <string name="partialPivoting">Pivoteo Parcial</string>
+
+    <string-array name="errors">
+        <item>E</item>
+        <item>ε</item>
+    </string-array>
 </resources>

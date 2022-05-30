@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MainActivity"
-    android:id="@+id/lineal_coordinator"
+    android:id="@+id/interpolation_coordinator"
     android:background="?attr/backgroundColor"
     android:overScrollMode="never"
     android:layout_height="match_parent"
@@ -16,27 +16,27 @@
         android:background="#00FFFFFF"
         android:elevation="0dp"
         app:elevation="0dp"
-        android:id="@+id/lineal_app_bar"
+        android:id="@+id/interpolation_app_bar"
         android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/lineal_collapse_bar"
+            android:id="@+id/interpolation_collapse_bar"
             android:layout_width="match_parent"
             app:titleEnabled="false"
             android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <RelativeLayout
-                android:id="@+id/lineal_container"
+                android:id="@+id/interpolation_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/lineal_image"
-                    android:src="@drawable/image_lineal"
+                    android:id="@+id/interpolation_image"
+                    android:src="@drawable/image_interpolation"
                     android:layout_width="match_parent"
                     android:adjustViewBounds="true"
-                    android:background="@drawable/gradient_4"
+                    android:background="@drawable/gradient_6"
                     android:scaleType="centerCrop"
                     android:layout_height="wrap_content" />
 
@@ -48,7 +48,7 @@
         android:overScrollMode="never"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
-        android:id="@+id/lineal_nested_scroll"
+        android:id="@+id/no_lineal_nested_scroll"
         android:splitMotionEvents="false"
         android:clipToPadding="false"
         android:layout_height="match_parent">
@@ -63,7 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:id="@+id/lineal_subtitle"
+                    android:id="@+id/interpolation_subtitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
@@ -81,7 +81,7 @@
                     tools:ignore="RtlCompat" />
 
                 <TextView
-                    android:id="@+id/lineal_title"
+                    android:id="@+id/interpolation_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
@@ -89,20 +89,20 @@
                     android:fontFamily="@font/poppins_bold"
                     android:gravity="bottom"
                     android:maxLines="3"
-                    android:text="@string/lineal"
+                    android:text="@string/interpolation"
                     android:textAlignment="center"
                     android:textColor="?attr/titleTextColor"
                     android:textSize="25sp"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
-                    app:layout_constraintBottom_toTopOf="@+id/lineal_subtitle"
+                    app:layout_constraintBottom_toTopOf="@+id/interpolation_subtitle"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     tools:ignore="RtlCompat" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/lineal_button_list"
+                android:id="@+id/interpolation_button_list"
                 android:layout_width="match_parent"
                 android:clipToPadding="false"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"

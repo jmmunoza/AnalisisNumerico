@@ -2,6 +2,8 @@ package com.jmmunoza.analisisnumerico;
 
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.jmmunoza.analisisnumerico.util.ToastMaker;
 import com.jmmunoza.analisisnumerico.view.fragmentmanager.FragmentAdderManager;
 
 public class MainActivity extends AppCompatActivity {
@@ -10,6 +12,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ToastMaker.init(this);
         if(savedInstanceState == null){
             FragmentAdderManager.init(this);
         } else {
