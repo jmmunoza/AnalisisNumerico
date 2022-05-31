@@ -18,9 +18,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.androidplot.xy.XYPlot;
 import com.jmmunoza.analisisnumerico.R;
-import com.jmmunoza.analisisnumerico.numericalmethods.nolineal.FixedPoint;
-import com.jmmunoza.analisisnumerico.numericalmethods.nolineal.NewtonRaphson;
+import com.jmmunoza.analisisnumerico.numericalmethods.nolineal.Bisection;
+import com.jmmunoza.analisisnumerico.numericalmethods.nolineal.IncrementalSearch;
 import com.jmmunoza.analisisnumerico.util.KeyboardManager;
 import com.jmmunoza.analisisnumerico.util.ToastMaker;
 import com.jmmunoza.analisisnumerico.view.adapters.NoLinealResultAdapter;
@@ -29,7 +30,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-public class FragmentFixedPoint extends Fragment {
+public class FragmentIncrementalSearch extends Fragment {
     private RecyclerView resultsList;
     private NoLinealResultAdapter adapter;
     private ArrayList<String> results;
@@ -42,11 +43,11 @@ public class FragmentFixedPoint extends Fragment {
 
     private EditText GXText;
     private EditText IMAXText;
+    private EditText ERRORText;
     private EditText XFText;
     private EditText FXText;
     private EditText XIText;
     private EditText DXText;
-    private EditText ERRORText;
 
     private TextView title;
     private TextView resultText;
@@ -55,8 +56,9 @@ public class FragmentFixedPoint extends Fragment {
     private Spinner errorSpinner;
 
     private CardView result;
+    private XYPlot plot;
 
-    public FragmentFixedPoint(){
+    public FragmentIncrementalSearch(){
 
     }
 
@@ -64,7 +66,7 @@ public class FragmentFixedPoint extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         postponeEnterTransition(1, TimeUnit.MILLISECONDS);
-        return inflater.inflate(R.layout.fragment_no_lineal_execution, null);
+        return inflater.inflate(R.layout.fragment_no_lineal_incremental_search, null);
     }
 
     @Override
@@ -74,25 +76,26 @@ public class FragmentFixedPoint extends Fragment {
     }
 
     private void loadComponents(){
-        IMAXLayout   = requireView().findViewById(R.id.no_lineal_execution_i_max);
         XFLayout     = requireView().findViewById(R.id.no_lineal_execution_xf);
         DXLayout     = requireView().findViewById(R.id.no_lineal_execution_dx);
+        IMAXLayout   = requireView().findViewById(R.id.no_lineal_execution_i_max);
         ERRORLayout  = requireView().findViewById(R.id.no_lineal_execution_error);
         IMAXText     = requireView().findViewById(R.id.no_lineal_execution_limit_text);
+        ERRORText    = requireView().findViewById(R.id.no_lineal_execution_error_text);
         XFText       = requireView().findViewById(R.id.no_lineal_execution_final_text);
         DXText       = requireView().findViewById(R.id.no_lineal_execution_dx_text);
         FXText       = requireView().findViewById(R.id.no_lineal_execution_function_text);
         XIText       = requireView().findViewById(R.id.no_lineal_execution_initial_text);
-        GXLayout     = requireView().findViewById(R.id.no_lineal_execution_gx);
-        GXText       = requireView().findViewById(R.id.no_lineal_execution_g_function_text);
-        ERRORText    = requireView().findViewById(R.id.no_lineal_execution_error_text);
         title        = requireView().findViewById(R.id.no_lineal_execution_title);
         solve        = requireView().findViewById(R.id.no_lineal_solve);
         IMAXLayout   = requireView().findViewById(R.id.no_lineal_execution_i_max);
         result       = requireView().findViewById(R.id.no_lineal_result);
         resultText   = requireView().findViewById(R.id.no_lineal_result_text);
+        GXLayout     = requireView().findViewById(R.id.no_lineal_execution_gx);
+        GXText       = requireView().findViewById(R.id.no_lineal_execution_g_function_text);
         errorSpinner = requireView().findViewById(R.id.no_lineal_execution_error_spinner);
         resultsList  = requireView().findViewById(R.id.no_lineal_execution_list);
+        plot         = requireView().findViewById(R.id.no_lineal_plot);
         results      = new ArrayList<>();
 
         setResultsList();
@@ -118,13 +121,14 @@ public class FragmentFixedPoint extends Fragment {
     }
 
     private void setOptions(){
+        ERRORLayout.setVisibility(View.GONE);
         XFLayout.setVisibility(View.GONE);
-        DXLayout.setVisibility(View.GONE);
+        GXLayout.setVisibility(View.GONE);
         result.setVisibility(View.GONE);
     }
 
     private void setTitle(){
-        title.setText(R.string.fixed_point);
+        title.setText(R.string.incremental_search);
     }
 
     private void setSolveFunction(){
@@ -132,43 +136,46 @@ public class FragmentFixedPoint extends Fragment {
             KeyboardManager.hide(requireContext(), FXText.getWindowToken());
             results.clear();
             adapter.updateResults(results);
-            results.add("Iteración   |   Resultado   |   Error");
+            results.add("Iteración   |   X inicial   |   X final");
             try {
                 double xi         = Double.parseDouble(XIText.getText().toString());
-                String fx         = FXText.getText().toString();
-                String gx         = GXText.getText().toString();
                 int    i_max      = Integer.parseInt(IMAXText.getText().toString());
-                double tol        = Double.parseDouble(ERRORText.getText().toString());
-                boolean errorType = errorSpinner.getSelectedItem().toString().equals("E");
+                double dx         = Double.parseDouble(DXText.getText().toString());
+                String fx         = FXText.getText().toString();
+
 
                 DecimalFormat df = new DecimalFormat();
                 df.setMaximumFractionDigits(10);
                 df.setMinimumFractionDigits(10);
 
-                final double[] resultValue = {0};
+                final double[] resultValueXf = {0};
+                final double[] resultValueXi = {0};
 
-                boolean worked = FixedPoint.calculate(fx, gx, xi, i_max, tol, errorType, (i, x, e) -> {
+                boolean worked = IncrementalSearch.calculate(fx, xi, dx, i_max, (i, xi1, xf1) -> {
                     String result = "";
                     result += String.format("%1d", i);
                     result += "   |   ";
-                    result += String.format("%5f", x);
+                    result += String.format("%6f", xi1);
                     result += "   |   ";
-                    result += String.format("%5f", e);
+                    result += String.format("%6f", xf1);
                     results.add(result);
-                    resultValue[0] = x;
+                    resultValueXi[0] = xi1;
+                    resultValueXf[0] = xf1;
                 });
 
                 if(worked){
                     result.setVisibility(View.VISIBLE);
-                    resultText.setText(String.valueOf(resultValue[0]));
+                    if(resultValueXf[0] == resultValueXi[0]){
+                        resultText.setText(String.format("%6f", resultValueXi[0]));
+                    } else {
+                        resultText.setText("[ "+ String.format("%6f", resultValueXi[0]) + "   -   " + String.format("%6f", resultValueXf[0]) + " ]");
+                    }
                 } else {
                     ToastMaker.show("No se llegó a una solución satisfactoria.");
                     result.setVisibility(View.GONE);
                     results.clear();
-                    adapter.updateResults(results);
                 }
                 adapter.updateResults(results);
-
             } catch (Exception e){
                 ToastMaker.show("Hay un error con los parámetros de entrada, por favor revísalos.");
             }

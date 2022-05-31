@@ -22,6 +22,7 @@ import com.jmmunoza.analisisnumerico.view.adapters.MainButtonsAdapter;
 import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentBisection;
 import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentFalsePosition;
 import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentFixedPoint;
+import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentIncrementalSearch;
 import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentMultipleRoots;
 import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentNewtonRaphson;
 import com.jmmunoza.analisisnumerico.view.fragmentmanager.SetFragmentSecant;
@@ -80,8 +81,7 @@ public class FragmentNoLineal extends Fragment {
         buttons.add(new FragmentMain.MainButton(getString(R.string.incremental_search), R.drawable.image_incremental_search, R.drawable.gradient_1) {
             @Override
             public void onClick() {
-                super.onClick();
-                System.out.println("1");
+                SetFragmentIncrementalSearch.set();
             }
         });
 

@@ -69,7 +69,7 @@
                     android:ellipsize="end"
                     android:fontFamily="@font/poppins_regular"
                     android:gravity="bottom"
-                    android:text="@string/interpolation_description"
+                    android:text="@string/lineal_description"
                     android:textColor="?attr/titleTextColor"
                     android:textSize="14sp"
                     android:paddingStart="10dp"
