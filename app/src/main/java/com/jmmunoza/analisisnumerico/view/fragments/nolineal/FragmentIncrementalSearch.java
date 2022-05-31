@@ -1,6 +1,10 @@
 package com.jmmunoza.analisisnumerico.view.fragments.nolineal;
 
 import android.annotation.SuppressLint;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.DashPathEffect;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +22,15 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.androidplot.util.PixelUtils;
+import com.androidplot.xy.LineAndPointFormatter;
+import com.androidplot.xy.SimpleXYSeries;
+import com.androidplot.xy.StepMode;
+import com.androidplot.xy.XYGraphWidget;
 import com.androidplot.xy.XYPlot;
+import com.androidplot.xy.XYSeries;
 import com.jmmunoza.analisisnumerico.R;
-import com.jmmunoza.analisisnumerico.numericalmethods.nolineal.Bisection;
+import com.jmmunoza.analisisnumerico.numericalmethods.F;
 import com.jmmunoza.analisisnumerico.numericalmethods.nolineal.IncrementalSearch;
 import com.jmmunoza.analisisnumerico.util.KeyboardManager;
 import com.jmmunoza.analisisnumerico.util.ToastMaker;
@@ -28,6 +38,7 @@ import com.jmmunoza.analisisnumerico.view.adapters.NoLinealResultAdapter;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class FragmentIncrementalSearch extends Fragment {
@@ -54,6 +65,7 @@ public class FragmentIncrementalSearch extends Fragment {
     private TextView solve;
 
     private Spinner errorSpinner;
+    private LineAndPointFormatter series1Format;
 
     private CardView result;
     private XYPlot plot;
@@ -98,6 +110,7 @@ public class FragmentIncrementalSearch extends Fragment {
         plot         = requireView().findViewById(R.id.no_lineal_plot);
         results      = new ArrayList<>();
 
+        setPlot();
         setResultsList();
         setErrorSpinner();
         setOptions();
@@ -127,6 +140,83 @@ public class FragmentIncrementalSearch extends Fragment {
         result.setVisibility(View.GONE);
     }
 
+    /**
+     * Custom line label renderer that highlights origin labels
+     */
+    class MyLineLabelRenderer extends XYGraphWidget.LineLabelRenderer {
+
+        @Override
+        protected void drawLabel(Canvas canvas, String text, Paint paint,
+                                 float x, float y, boolean isOrigin) {
+            if(isOrigin) {
+                // make the origin labels red:
+                final Paint originPaint = new Paint(paint);
+                originPaint.setColor(Color.RED);
+                super.drawLabel(canvas, text, originPaint, x, y , isOrigin);
+            } else {
+                super.drawLabel(canvas, text, paint, x, y , isOrigin);
+            }
+        }
+    }
+
+    /**
+     * Draws every other tick label and renders text in gray instead of white.
+     */
+    class MySecondaryLabelRenderer extends MyLineLabelRenderer {
+
+
+        @Override
+        public void drawLabel(Canvas canvas, XYGraphWidget.LineLabelStyle style,
+                              Number val, float x, float y, boolean isOrigin) {
+            if(val.doubleValue() % 2 == 0) {
+                final Paint paint = style.getPaint();
+                if(!isOrigin) {
+                    paint.setColor(Color.GRAY);
+                }
+                super.drawLabel(canvas, style, val, x, y, isOrigin);
+            }
+        }
+    }
+
+    private void setPlot(){
+        plot.setDomainStep(StepMode.INCREMENT_BY_VAL, 1);
+        plot.setRangeStep(StepMode.INCREMENT_BY_VAL, 1);
+
+        plot.centerOnRangeOrigin(0);
+
+        plot.getGraph().setLineLabelRenderer(XYGraphWidget.Edge.BOTTOM, new MyLineLabelRenderer());
+        plot.getGraph().setLineLabelRenderer(XYGraphWidget.Edge.LEFT, new MyLineLabelRenderer());
+        plot.getGraph().setLineLabelRenderer(XYGraphWidget.Edge.RIGHT, new MySecondaryLabelRenderer());
+        plot.getGraph().setLineLabelRenderer(XYGraphWidget.Edge.TOP, new MySecondaryLabelRenderer());
+        plot.getGraph().getLineLabelStyle(XYGraphWidget.Edge.TOP).setFormat(new DecimalFormat("0"));
+        plot.getGraph().getLineLabelStyle(XYGraphWidget.Edge.RIGHT).setFormat(new DecimalFormat("0"));
+
+        DashPathEffect dashFx = new DashPathEffect(new float[] {PixelUtils.dpToPix(3), PixelUtils.dpToPix(3)}, 0);
+        plot.getGraph().getDomainGridLinePaint().setPathEffect(dashFx);
+        plot.getGraph().getRangeGridLinePaint().setPathEffect(dashFx);
+        series1Format = new LineAndPointFormatter(requireContext(), R.xml.eee);
+    }
+
+    protected XYSeries generateSeries(String f, double minX, double maxX, double resolution) {
+        final double range = maxX - minX;
+        final double step = range / resolution;
+        List<Number> xVals = new ArrayList<>();
+        List<Number> yVals = new ArrayList<>();
+
+        double x = minX;
+        while (x <= maxX) {
+            double y = F.eval(f,x);
+            if(Math.abs(y) <= 5){
+                xVals.add(x);
+                yVals.add(F.eval(f,x));
+            }
+
+            x +=step;
+        }
+
+        return new SimpleXYSeries(xVals, yVals, "f(x) = " + f);
+    }
+
     private void setTitle(){
         title.setText(R.string.incremental_search);
     }
@@ -142,7 +232,6 @@ public class FragmentIncrementalSearch extends Fragment {
                 int    i_max      = Integer.parseInt(IMAXText.getText().toString());
                 double dx         = Double.parseDouble(DXText.getText().toString());
                 String fx         = FXText.getText().toString();
-
 
                 DecimalFormat df = new DecimalFormat();
                 df.setMaximumFractionDigits(10);
@@ -169,7 +258,13 @@ public class FragmentIncrementalSearch extends Fragment {
                         resultText.setText(String.format("%6f", resultValueXi[0]));
                     } else {
                         resultText.setText("[ "+ String.format("%6f", resultValueXi[0]) + "   -   " + String.format("%6f", resultValueXf[0]) + " ]");
+
                     }
+
+                    plot.clear();
+                    plot.addSeries(generateSeries(fx, resultValueXi[0]-3, resultValueXf[0]+3, 500), series1Format);
+                    plot.redraw();
+
                 } else {
                     ToastMaker.show("No se llegó a una solución satisfactoria.");
                     result.setVisibility(View.GONE);
